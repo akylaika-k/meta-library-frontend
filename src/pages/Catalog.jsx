@@ -1,47 +1,36 @@
-import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
-import API from "../api/api";
-import { AuthContext } from "../context/AuthContext";
 
 function Catalog() {
   const [books, setBooks] = useState([]);
-  const { role } = useContext(AuthContext);
 
   useEffect(() => {
     const mockBooks = [
-      { id: 1, title: "EASY MANAGE STOCKS", desc: "Lorem ipsum dolor sit amet...", status: "reserve" },
-      { id: 2, title: "РИЧАРД ФЕЙНМАН", desc: "Lorem ipsum dolor sit amet...", status: "reserved" }
+      { id: "1001/601", title: "Введение в искусственный интеллект", author: "А.В. Остроухов", pages: 250, year: 2024 },
+      { id: "1001/308", title: "Информатика и основы программирования С#", author: "М.М. Бузмакова", pages: 180, year: 2024 },
+      { id: "1001/207", title: "Искусство программирования ИГР на С++", author: "Михаил Фленов", pages: 256, year: 2023 },
+      { id: "1001/1003", title: "Основы программирования в среде UNITY", author: "А.Н. Пушкарев", pages: 165, year: 2023 }
     ];
     setBooks(mockBooks);
-
-    // бэкенд
-    // API.get("/api/products").then(res => setBooks(res.data));
   }, []);
 
   return (
     <div className="app-layout">
-     <Sidebar /> 
-
+      <Sidebar />
       <div className="main-content">
-        <input type="text" className="search-bar" placeholder="🔍 Поиск..." />
-
-        <div className="books-container">
-          {books.map((book) => (
-            <div key={book.id} className="book-list-item">
+        <h2 style={{ marginBottom: "20px" }}>Каталог (BookWorm)</h2>
         
-              <div className="book-cover"></div> 
-              
-              <div className="book-info">
-                <h3 className="book-title">{book.title}</h3>
-                <p className="book-desc">{book.desc}</p>
-                
-                {book.status === "reserve" ? (
-                  <button className="btn-reserve">Reserve</button>
-                ) : (
-                  <button className="btn-reserved">Reserved</button>
-                )}
-              </div>
+        <div style={{ display: "grid", gap: "15px" }}>
+          {books.map((book) => (
+            <div key={book.id} style={{ background: "white", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 5px rgba(0,0,0,0.05)" }}>
+              <h3 style={{ margin: "0 0 10px 0" }}>{book.title}</h3>
+              <p style={{ color: "#666", margin: "0 0 5px 0" }}>Автор: {book.author}</p>
+              <p style={{ color: "#999", fontSize: "14px", margin: 0 }}>
+                Код: {book.id} | {book.pages} стр. | Год: {book.year}
+              </p>
+              <button style={{ marginTop: "15px", padding: "8px 16px", background: "#000", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}>
+                Reserve Book
+              </button>
             </div>
           ))}
         </div>

@@ -1,31 +1,37 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 
 function MyBooks() {
   const [myBooks, setMyBooks] = useState([
-    { id: 1, title: "Маленькие женщины", status: "red" },
-    { id: 2, title: "Евгений Онегин", status: "green" },
-    { id: 3, title: "Макс Фрай", status: "yellow" },
-    { id: 4, title: "Обложка книг", status: "yellow" },
-    { id: 5, title: "Invisible Man", status: "yellow" },
-    { id: 6, title: "Белая линия ночи", status: "yellow" },
+    { id: 1, title: "Маленькие женщины", author: "Луиза Мэй Олкотт", status: "borrowed", statusText: "Сейчас читаю" },
+    { id: 2, title: "Евгений Онегин", author: "А.С. Пушкин", status: "returned", statusText: "Возвращено" },
+    { id: 3, title: "Макс Фрай", author: "Светлана Мартынчик", status: "borrowed", statusText: "Сейчас читаю" },
+    { id: 4, title: "Белая линия ночи", author: "Неизвестен", status: "overdue", statusText: "Просрочено!" },
   ]);
 
   return (
     <div className="app-layout">
-     <Sidebar /> 
-     
+      <Sidebar />
+
       <div className="main-content">
-        <h2 className="page-title">Мои книги</h2>
+        <h2 style={{ color: "#000", marginBottom: "5px" }}>Мои книги</h2>
+        <p style={{ color: "#888", marginBottom: "30px" }}>История ваших чтений и текущие задолженности</p>
         
-        <div className="books-grid">
+        <div className="my-books-grid">
           {myBooks.map((book) => (
-            <div key={book.id} className="grid-book-card">
-              <div className="grid-book-cover">
-                {book.title}
+            <div key={book.id} className="bw-book-card">
+              <div className="bw-book-cover">
+                Нет обложки
               </div>
-              <div className={`status-bar status-${book.status}`}></div>
+              
+              <div className="bw-book-info">
+                <div className="bw-book-title">{book.title}</div>
+                <div className="bw-book-author">{book.author}</div>
+    
+                <div className={`bw-status-badge bw-status-${book.status}`}>
+                  {book.statusText}
+                </div>
+              </div>
             </div>
           ))}
         </div>

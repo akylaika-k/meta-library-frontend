@@ -3,52 +3,63 @@ import Sidebar from "../components/Sidebar";
 
 function ManageBooks() {
   const [books, setBooks] = useState([
-    { id: 1, title: "Название книги 1", desc: "Описание книги 1..." },
-    { id: 2, title: "Название книги 2", desc: "Описание книги 2..." },
+    { id: "1001/601", title: "Введение в искусственный интеллект", author: "А.В. Остроухов", status: "Доступен" },
+    { id: "1001/308", title: "Информатика и основы программирования С#", author: "М.М. Бузмакова", status: "Доступен" },
+    { id: "1001/207", title: "Искусство программирования ИГР на С++", author: "Михаил Фленов", status: "Забронирован" },
+    { id: "1001/1003", title: "Основы программирования в среде UNITY", author: "А.Н. Пушкарев", status: "Доступен" }
   ]);
 
   const handleDelete = (id) => {
-    const confirmDelete = window.confirm("Вы уверены, что хотите удалить эту книгу?");
-    if (confirmDelete) {
-      setBooks(books.filter((book) => book.id !== id));
+    if (window.confirm("Вы уверены, что хотите удалить эту книгу?")) {
+      setBooks(books.filter((b) => b.id !== id));
     }
-  };
-
-  const handleEdit = (id) => {
-    alert(`Редактирование книги с ID: ${id}`);
   };
 
   return (
     <div className="app-layout">
       <Sidebar />
-
+      
       <div className="main-content">
-        <h2 className="page-title">Управление книгами</h2>
-        
-        <div className="admin-books-list">
-          {books.map((book) => (
-            <div key={book.id} className="admin-book-card">
-              <div className="admin-book-cover"></div>
-              
-              <div className="admin-book-content">
-                <div className="admin-book-header">
-                  <span className="admin-book-title">{book.title}</span>
-                  <button className="btn-edit" onClick={() => handleEdit(book.id)}>
-                    редактировать
-                  </button>
-                </div>
-                
-                <div className="admin-book-desc">
-                  {book.desc}
-                </div>
-                
-                <button className="btn-delete" onClick={() => handleDelete(book.id)}>
-                  удалить
-                </button>
-              </div>
-            </div>
-          ))}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+          <div>
+            <h2 style={{ color: "#000", margin: 0 }}>Book Management</h2>
+            <p style={{ color: "#888", margin: "5px 0 0 0" }}>Управление инвентарем библиотеки</p>
+          </div>
+          <button className="bw-add-btn">+ Add Book</button>
         </div>
+
+        <div className="bw-admin-table-container">
+          <table className="bw-admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Автор/Тип</th>
+                <th>Доступность</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody>
+              {books.map((book) => (
+                <tr key={book.id}>
+                  <td style={{ fontWeight: "bold", color: "#000" }}>{book.id}</td>
+                  <td>{book.title}</td>
+                  <td>{book.author}</td>
+                  <td>
+                    <span style={{ color: book.status === "Available" ? "#15803d" : "#0369a1", fontWeight: "bold" }}>
+                      {book.status}
+                    </span>
+                  </td>
+                  <td>
+                    <button className="bw-action-btn edit" title="Редактировать">✏️</button>
+                    <button className="bw-action-btn delete" onClick={() => handleDelete(book.id)} title="Удалить">🗑️</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
       </div>
     </div>
   );
